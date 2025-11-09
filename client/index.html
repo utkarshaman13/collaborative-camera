@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Canvas - Real-time Drawing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="logo">🎨 Collaborative Canvas</div>
+                <div class="connection-status">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span id="statusText">Connecting...</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-count">
+                    <span>👥</span>
+                    <span id="userCount">0</span>
+                    <span>online</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="toolbar">
+                <div class="tool-section">
+                    <h3>Drawing Tools</h3>
+                    <div class="tool-group">
+                        <button class="tool-btn active" id="brushTool" data-tool="brush">✏️ Brush</button>
+                        <button class="tool-btn" id="eraserTool" data-tool="eraser">🧹 Eraser</button>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Color</h3>
+                    <div class="color-picker-wrapper">
+                        <input type="color" id="colorPicker" class="color-input" value="#000000">
+                        <div class="color-presets" id="colorPresets"></div>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Brush Size</h3>
+                    <div class="slider-control">
+                        <div class="slider-label">
+                            <span>Width</span>
+                            <span id="strokeWidthValue">3</span>
+                        </div>
+                        <input type="range" id="strokeWidth" class="slider" min="1" max="50" value="3">
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn" id="undoBtn">↶ Undo</button>
+                        <button class="action-btn" id="redoBtn">↷ Redo</button>
+                    </div>
+                    <button class="action-btn clear" id="clearBtn">🗑️ Clear Canvas</button>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Online Users</h3>
+                    <div class="online-users" id="onlineUsers"></div>
+                </div>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="mainCanvas"></canvas>
+                <div id="remoteCursors"></div>
+                <div class="stats-overlay" id="statsOverlay">
+                    <div>FPS: <span id="fpsCounter">0</span></div>
+                    <div>Latency: <span id="latencyCounter">0</span>ms</div>
+                    <div>Operations: <span id="opsCounter">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="connectionModal">
+        <div class="modal">
+            <h2>Join Drawing Session</h2>
+            <div class="input-group">
+                <label for="usernameInput">Your Name</label>
+                <input type="text" id="usernameInput" placeholder="Enter your name" maxlength="20">
+            </div>
+            <button class="modal-btn" id="joinBtn">Join Session</button>
+        </div>
+    </div>
+
+    <!-- CRITICAL FIX: Load Socket.io client library FIRST -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Then load application files -->
+    <script src="canvas.js"></script>
+    <script src="websocket.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
